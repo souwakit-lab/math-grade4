@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奧數解讀：流水行船的奧祕</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        /* 基礎設定：活潑背景與手機適配 */
+        body { font-family: 'Comic Sans MS', 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); margin: 0; padding: 20px; color: #333; line-height: 1.6; }
+        .container { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-top: 8px solid #FF9800; }
+        h1 { color: #FF5722; font-size: 22px; text-align: center; margin-bottom: 20px; }
+        
+        /* 情景導入圖片 */
+        .intro-container { text-align: center; margin-bottom: 20px; }
+        .intro-img { max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 3px solid #FFEFD5; }
+        
+        /* 卡片樣式 */
+        .card { border-radius: 15px; padding: 15px; margin-bottom: 18px; position: relative; transition: all 0.3s ease; }
+        h3 { margin-top: 0; margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; }
+        .title-icon { font-size: 24px; margin-right: 8px; }
+        .highlight { color: #E91E63; font-weight: bold; font-size: 1.1em; background-color: #FFFF00; padding: 0 3px; border-radius: 4px; }
+        
+        /* 🔒 隱藏與動畫 */
+        .hidden-card { display: none; opacity: 0; transform: translateY(20px); }
+        .show { display: block; animation: fadeInUp 0.5s forwards; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* ✨ 跳動的橙色互動按鈕 (右下角) */
+        .unlock-btn { position: absolute; bottom: 10px; right: 10px; background: #FF9800; color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2); animation: pulse_bounce 1s infinite; z-index: 10; }
+        @keyframes pulse_bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .unlock-btn:active { transform: scale(0.9); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        
+        /* 顏色區分 */
+        .card-question { background: #FFF3E0; border-left: 8px solid #FF9800; padding-bottom: 15px; } /* 固定顯示題目 */
+        .intro-prompt { background: #FFF9C4; border-left: 8px solid #FFC107; } /* 黃色 提示 */
+        .step-one { background: #E3F2FD; border-left: 8px solid #2196F3; } /* 藍色 第一步 */
+        .step-two { background: #F3E5F5; border-left: 8px solid #9C27B0; } /* 紫色 第二步 */
+        .final-answer { background: #E8F5E9; border-left: 8px solid #4CAF50; padding-bottom: 15px; } /* 綠色 答案 */
+        
+        /* 讓 LaTeX 公式新一行且置中 */
+        .katex-display { margin: 1em 0 !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 流水行船的奧祕</h1>
+        <div class="intro-container">
+            <img src="intro_scene.png" alt="流水行船情景導入圖" class="intro-img">
+        </div>
+
+        <div class="card card-question">
+            <h3><span class="title-icon">📜</span>題目：往返甲乙兩港</h3>
+            <p>「和平」號輪船在靜水中的速度是每小時 $20$ 千米，水流的速度是每小時 $4$ 千米，「和平」號往返甲、乙兩港用了 $8$ 小時，請問甲、乙兩港之間相距多少千米？</p>
+        </div>
+
+        <div class="card intro-prompt" id="promptCard">
+            <h3><span class="title-icon">💡</span>破題提示</h3>
+            <p>在河流中行駛，去程如果是順流（船速 + 水速），那回程就是逆流（船速 - 水速）。雖然每次速度不同，但是往返的距離是一樣的喔！</p>
+            <button class="unlock-btn" onclick="unlockNext('promptCard', 'stepOneCard', '下一步 👆')">點我解鎖 👆</button>
+        </div>
+
+        <div class="card step-one hidden-card" id="stepOneCard">
+            <h3><span class="title-icon">🕵️‍♂️</span>第一步：算出順流與逆流速度</h3>
+            <p>順流時水流是在幫忙，逆流時水流是在幫倒忙。</p>
+            <p>順流速度（船速 + 水速）：</p>
+            $$20 + 4 = 24 \text{ (千米/小時)}$$
+            <p>逆流速度（船速 - 水速）：</p>
+            $$20 - 4 = 16 \text{ (千米/小時)}$$
+            <button class="unlock-btn" id="stepOneBtn" onclick="unlockNext('stepOneCard', 'stepTwoCard', '下一步 👆')">點我解鎖 👆</button>
+        </div>
+
+        <div class="card step-two hidden-card" id="stepTwoCard">
+            <h3><span class="title-icon">🚀</span>第二步：運用運動平衡找時間</h3>
+            <p>既然甲、乙兩港之間的距離不變，去程花的時間少，回程花的時間多。我們把總時間 $8$ 小時想像成去程與回程的速度差在「拉扯」。可以使用平均速度概念，或像老師這樣「拉扯平衡」：</p>
+            <p>順流速度（$24$）與逆流速度（$16$）的比是：</p>
+            $$24 \div 16 = 1.5$$
+            <p>這意味著逆流時花的時間是順流時的 $1.5$ 倍。</p>
+            <button class="unlock-btn" id="stepTwoBtn" onclick="unlockNext('stepTwoCard', 'finalAnswerCard', '看答案 👆')">點我解鎖 👆</button>
+        </div>
+
+        <div class="card final-answer hidden-card" id="finalAnswerCard">
+            <h3><span class="title-icon">🏆</span>最終答案：算出港距</h3>
+            <p>我們知道回程時間是去程的 $1.5$ 倍，設去程順流時間為 $1$ 份，回程逆流時間為 $1.5$ 份。</p>
+            <p>總時間為 $1 + 1.5 = 2.5$ 份。這 $2.5$ 份一共是 $8$ 小時。</p>
+            <p>順流時間（去程）為：</p>
+            $$8 \div 2.5 = 3.2 \text{ (小時)}$$
+            <p>甲、乙兩港之間距離（順流速度 $\times$ 順流時間）：</p>
+            $$24 \times 3.2 = 76.8 \text{ (千米)}$$
+            <p style="text-align: center; font-size: 1.2em;"><strong>✅ 答：甲、乙兩港之間相距 $76.8$ 千米。</strong></p>
+        </div>
+    </div>
+
+    <script>
+        // 強制執行 LaTeX 渲染
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError : false
+            });
+        });
+
+        // 互動解鎖邏輯
+        function unlockNext(currentId, nextId, nextText) {
+            const next = document.getElementById(nextId);
+            const currentBtn = document.getElementById(currentId).querySelector('.unlock-btn');
+            
+            if (next.style.display !== 'block') {
+                next.classList.add('show'); // 顯示卡片
+                if (currentBtn) currentBtn.style.display = 'none'; // 隱藏當前按鈕
+                
+                // 平滑捲動到新出現的卡片
+                setTimeout(() => {
+                    next.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 200);
+            }
+        }
+    </script>
+</body>
+</html>
