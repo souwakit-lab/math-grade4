@@ -3,121 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>奧數解題：長凳上的神祕數字</title>
-    <style>
-        /* 基礎設定：活潑的背景與適合手機閱讀的字體 */
-        body {
-            font-family: 'Comic Sans MS', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            margin: 0;
-            padding: 20px;
-            color: #333;
-            line-height: 1.6;
-        }
-        /* 主體卡片：白色圓角底框，讓內容更集中 */
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            border-top: 8px solid #FF9800;
-        }
-        h1 {
-            color: #FF5722;
-            font-size: 22px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        /* 🎨 引入圖片區域樣式 - 導入情景 */
-        .intro-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .intro-img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 3px solid #FFEFD5; /* 加上淡淡的邊框讓圖片更跳 */
-        }
+    <title>奧數解讀：分步解鎖挑戰</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
-        /* 各個步驟的區塊設計 */
-        .card {
-            background: #FFF9C4;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 6px solid #FFC107;
-        }
-        .card.step { background: #E1F5FE; border-left-color: #03A9F4; }
-        .card.answer { background: #E8F5E9; border-left-color: #4CAF50; display: none; /* 預設隱藏答案 */ }
-        
+    <style>
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); margin: 0; padding: 15px; color: #333; line-height: 1.6; }
+        .container { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-top: 8px solid #FF9800; }
+        h1 { color: #FF5722; font-size: 22px; text-align: center; margin-bottom: 20px; }
+        .intro-container { text-align: center; margin-bottom: 20px; }
+        .intro-img { max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 3px solid #FFEFD5; }
+        .card { border-radius: 15px; padding: 15px 15px 30px 15px; margin-bottom: 18px; position: relative; transition: all 0.3s ease; }
         h3 { margin-top: 0; margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; }
         .title-icon { font-size: 24px; margin-right: 8px; }
-        .highlight { color: #E91E63; font-weight: bold; font-size: 1.1em; }
-        
-        /* 互動按鈕設計 */
-        button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: #FF9800;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.1s;
-            margin-top: 20px;
-        }
-        button:active { transform: scale(0.98); }
+        .highlight { color: #E91E63; font-weight: bold; font-size: 1.1em; background-color: #FFFF00; padding: 0 3px; border-radius: 4px; }
+        .hidden-card { display: none; opacity: 0; transform: translateY(20px); }
+        .show { display: block; animation: fadeInUp 0.5s forwards; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .clickable-step { cursor: pointer; border: 2px solid transparent; }
+        .clickable-step:hover { transform: scale(1.01); border-color: #FF5722; }
+        .click-hint { position: absolute; bottom: 10px; right: 15px; background: #FF5722; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; animation: pulse-bounce 1.2s infinite; z-index: 10; }
+        @keyframes pulse-bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .card-question { background: #FFF3E0; border-left: 8px solid #FF9800; padding-bottom: 15px; }
+        .intro-prompt { background: #FFF9C4; border-left: 8px solid #FFC107; }
+        .step-one { background: #E3F2FD; border-left: 8px solid #2196F3; }
+        .step-two { background: #F3E5F5; border-left: 8px solid #9C27B0; }
+        .final-answer { background: #E8F5E9; border-left: 8px solid #4CAF50; padding-bottom: 15px; }
+        /* 讓 LaTeX 公式新一行且置中 */
+        .katex-display { margin: 1em 0 !important; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🏆 2020 數學大王挑戰</h1>
-
         <div class="intro-container">
-            <img src="intro_scene.png" alt="禮堂長凳座位挑戰" class="intro-img">
+            <img src="intro_scene.png" alt="情景圖" class="intro-img">
         </div>
-        <div class="card">
+
+        <div class="card card-question">
             <h3><span class="title-icon">📜</span>題目：長凳上的神祕數字</h3>
-            <p>學校安排聽講座，若每 3 人坐一條長凳，那麼剩下 48 人沒有座位；若每 5 人坐一條長凳，則剛好空出兩條長凳。聽講座的學生有幾人？</p>
+            <p>學校安排聽講座，若每 3 人坐一條長凳，則剩下 48 人沒有座位；若每 5 人坐一條長凳，則剛好空出兩條長凳。學生有幾人？</p>
         </div>
 
-        <div class="card step">
+        <div class="card intro-prompt clickable-step" id="promptCard">
             <h3><span class="title-icon">💡</span>破題提示</h3>
-            <p>想像一下，如果我們讓原本「3人擠一條」的長凳，變成「5人坐一條」，會發生什麼魔法呢？</p>
+            <p>想像一下，如果我們讓原本「3人坐一條」的長凳，變成「5人坐一條」，這中間發生了多大的變化？</p>
+            <div class="click-hint">點我解鎖 👆</div>
         </div>
 
-        <div class="card step">
-            <h3><span class="title-icon">🕵️‍♂️</span>第一步：找出「人數差」</h3>
-            <p>原本：每條坐 3 人，多出 <span class="highlight">48</span> 人。<br>
-            後來：每條坐 5 人，空出 2 條長凳（代表如果不空，我們缺了 5 × 2 = <span class="highlight">10</span> 人）。</p>
+        <div class="card step-one hidden-card clickable-step" id="step1Card">
+            <h3><span class="title-icon">🕵️‍♂️</span>第一步：找出「人數總差」</h3>
+            <p>原本多出 48 人，後來空出 2 條長凳。這 2 條長凳本來可以坐：</p>
+            $$ 5 \times 2 = 10 \text{ (人)} $$
+            <p>所以總共的變化量（人數差）是：</p>
+            $$ 48 + 10 = 58 \text{ (人)} $$
+            <div class="click-hint">下一步 👆</div>
         </div>
 
-        <div class="card step">
+        <div class="card step-two hidden-card clickable-step" id="step2Card">
             <h3><span class="title-icon">🚀</span>第二步：算算有幾條長凳？</h3>
-            <p>從「多出 48 人」變成「缺 10 人」，相差了 48 + 10 = <span class="highlight">58</span> 人。<br>
-            因為每條長凳多擠了 2 個人 (5 - 3 = 2)。<br>
-            所以長凳有：58 ÷ 2 = <span class="highlight">29</span> 條！</p>
+            <p>每條長凳多坐了 $5 - 3 = 2 \text{ (人)}$。用總人數差除以每條長凳的變化：</p>
+            $$ 58 \div 2 = 29 \text{ (條)} $$
+            <div class="click-hint">看答案 👆</div>
         </div>
 
-        <button onclick="document.getElementById('answerBox').style.display='block'; this.style.display='none';">
-            ✨ 點我解鎖最終答案 ✨
-        </button>
-
-        <div class="card answer" id="answerBox">
-            <h3><span class="title-icon">🎉</span>第三步：學生到底有幾人？</h3>
-            <p>既然知道有 29 條長凳了，我們算一下：<br>
-            (29 條長凳 × 3 人) + 站著的 48 人 = <span class="highlight">135</span> 人。<br><br>
-            <strong>✅ 答：聽講座的學生有 135 人！</strong></p>
+        <div class="card final-answer hidden-card" id="step3Card">
+            <h3><span class="title-icon">🏆</span>最終答案</h3>
+            <p>我們帶回第一種情況驗算：</p>
+            $$ (29 \times 3) + 48 = 135 \text{ (人)} $$
+            <strong>✅ 答：聽講座的學生有 135 人！</strong>
         </div>
     </div>
+
+    <script>
+        // 2. 核心：強制執行 LaTeX 渲染
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError : false
+            });
+        });
+
+        // 3. 互動邏輯
+        function setupUnlock(currentId, nextId) {
+            const current = document.getElementById(currentId);
+            const next = document.getElementById(nextId);
+            current.addEventListener('click', function() {
+                if (next.classList.contains('hidden-card')) {
+                    next.classList.add('show');
+                    const hint = current.querySelector('.click-hint');
+                    if (hint) hint.remove();
+                    current.classList.remove('clickable-step');
+                    current.style.paddingBottom = "15px";
+                    setTimeout(() => {
+                        next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 200);
+                }
+            });
+        }
+        setupUnlock('promptCard', 'step1Card');
+        setupUnlock('step1Card', 'step2Card');
+        setupUnlock('step2Card', 'step3Card');
+    </script>
 </body>
 </html>
