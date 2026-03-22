@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奧數解讀：尋找神祕的末尾數</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        /* 基礎設定 */
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); margin: 0; padding: 15px; color: #333; line-height: 1.6; }
+        .container { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-top: 8px solid #FF9800; }
+        h1 { color: #FF5722; font-size: 22px; text-align: center; margin-bottom: 20px; }
+        
+        /* 情景導入圖片 */
+        .intro-container { text-align: center; margin-bottom: 20px; }
+        .intro-img { max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 3px solid #FFEFD5; }
+        
+        /* 卡片通用樣式 */
+        .card { border-radius: 15px; padding: 15px 15px 30px 15px; margin-bottom: 18px; position: relative; transition: all 0.3s ease; }
+        h3 { margin-top: 0; margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; }
+        .title-icon { font-size: 24px; margin-right: 8px; }
+        .highlight { color: #E91E63; font-weight: bold; font-size: 1.1em; background-color: #FFFF00; padding: 0 3px; border-radius: 4px; }
+        
+        /* 隱藏與動畫邏輯 */
+        .hidden-card { display: none; opacity: 0; transform: translateY(20px); }
+        .show { display: block; animation: fadeInUp 0.5s forwards; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* 醒目的「點我解鎖」標籤 (右下角) */
+        .clickable-step { cursor: pointer; border: 2px solid transparent; }
+        .clickable-step:hover { transform: scale(1.01); border-color: #FF5722; }
+        .click-hint { position: absolute; bottom: 10px; right: 15px; background: #FF5722; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; animation: pulse-bounce 1.2s infinite; z-index: 10; }
+        @keyframes pulse-bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        
+        /* 顏色區分 */
+        .card-question { background: #FFF3E0; border-left: 8px solid #FF9800; padding-bottom: 15px; }
+        .intro-prompt { background: #FFF9C4; border-left: 8px solid #FFC107; }
+        .step-one { background: #E3F2FD; border-left: 8px solid #2196F3; }
+        .step-two { background: #F3E5F5; border-left: 8px solid #9C27B0; }
+        .final-answer { background: #E8F5E9; border-left: 8px solid #4CAF50; padding-bottom: 15px; }
+        
+        /* 讓 LaTeX 公式新一行且置中 */
+        .katex-display { margin: 1em 0 !important; }
+        
+        /* 文字排版微調 */
+        .indent-text { margin-left: 10px; font-size: 0.95em; color: #444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 尋找神祕的末尾數</h1>
+        <div class="intro-container">
+            <img src="intro_scene.png" alt="數字循環規律情景圖" class="intro-img">
+        </div>
+
+        <div class="card card-question">
+            <h3><span class="title-icon">📜</span>題目：大數的末尾數</h3>
+            <p>$123456798^{22}$ 的末尾數是（　）</p>
+            <p>A. $4$ &nbsp;&nbsp;&nbsp; B. $2$ &nbsp;&nbsp;&nbsp; C. $6$ &nbsp;&nbsp;&nbsp; D. $8$</p>
+            <p style="font-size: 0.85em; color: #666; text-align: right;">（2022「數學大王」小學數學國際邀請賽初賽）</p>
+        </div>
+
+        <div class="card intro-prompt clickable-step" id="promptCard">
+            <h3><span class="title-icon">💡</span>破題提示</h3>
+            <p>想像一下，這麼巨大的一個數字連乘 $22$ 次，我們不可能慢慢算！但請仔細思考，兩個數字相乘時，**「末尾數」**其實只由哪一個位數決定呢？</p>
+            <div class="click-hint">點我解鎖 👆</div>
+        </div>
+
+        <div class="card step-one hidden-card clickable-step" id="step1Card">
+            <h3><span class="title-icon">🕵️‍♂️</span>第一步：找出「關鍵數字」</h3>
+            <p>因為每次相乘，前面的數字都不會影響到個位數的結果。所以我們只需要看原本數字的個位數：</p>
+            $$ 123456798 \rightarrow \text{看末尾的 } 8 $$
+            <p>因此，$123456798^{22}$ 的末尾數，完全等於 $8^{22}$ 的末尾數！我們只要專心研究 $8$ 就好了。</p>
+            <div class="click-hint">下一步 👆</div>
+        </div>
+
+        <div class="card step-two hidden-card clickable-step" id="step2Card">
+            <h3><span class="title-icon">🚀</span>第二步：尋找「末尾數的規律」</h3>
+            <p>讓我們來列出 $8$ 連乘時，個位數的變化規律：</p>
+            <div class="indent-text">
+                $8^1$ 末尾是 $\mathbf{8}$<br>
+                $8^2$ 末尾是 $\mathbf{4} \quad (8 \times 8 = 64)$<br>
+                $8^3$ 末尾是 $\mathbf{2} \quad (4 \times 8 = 32)$<br>
+                $8^4$ 末尾是 $\mathbf{6} \quad (2 \times 8 = 16)$<br>
+                $8^5$ 末尾是 $\mathbf{8} \quad (6 \times 8 = 48)$
+            </div>
+            <p>規律出現了！末尾數會以 **$8, 4, 2, 6$** 這 $4$ 個數字為一個週期，不斷重複循環！</p>
+            <div class="click-hint">看答案 👆</div>
+        </div>
+
+        <div class="card final-answer hidden-card" id="step3Card">
+            <h3><span class="title-icon">🏆</span>最終答案</h3>
+            <p>我們一共有 $22$ 次方，每 $4$ 個數字循環一次。我們用除法來分組：</p>
+            $$ 22 \div 4 = 5 \text{ (組)} \cdots 2 \text{ (個)} $$
+            <p>餘數是 $2$，代表它會落在新一輪循環 $8, 4, 2, 6$ 中的**第 $2$ 個數字**，也就是 $4$。</p>
+            <p style="text-align: center; font-size: 1.2em;"><strong>✅ 答：末尾數是 $4$，選項選 A！</strong></p>
+        </div>
+    </div>
+
+    <script>
+        // 強制執行 LaTeX 渲染
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError : false
+            });
+        });
+
+        // 互動解鎖邏輯
+        function setupUnlock(currentId, nextId) {
+            const current = document.getElementById(currentId);
+            const next = document.getElementById(nextId);
+            current.addEventListener('click', function() {
+                if (next.classList.contains('hidden-card')) {
+                    next.classList.add('show');
+                    const hint = current.querySelector('.click-hint');
+                    if (hint) hint.remove();
+                    current.classList.remove('clickable-step');
+                    current.style.paddingBottom = "15px";
+                    setTimeout(() => {
+                        next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 200);
+                }
+            });
+        }
+        setupUnlock('promptCard', 'step1Card');
+        setupUnlock('step1Card', 'step2Card');
+        setupUnlock('step2Card', 'step3Card');
+    </script>
+</body>
+</html>
